@@ -47,6 +47,23 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<UserEntity> deleteSkill(String name, String skill){
+
+        List<UserEntity> lst = userRepository.findAll();
+        for (UserEntity usr : lst){
+            String tempName = usr.getName();
+            String tempSkill = usr.getSkill();
+            if(tempName.equals(name) && tempSkill.equals(skill)){
+                String usrID = usr.getUUID();
+                userRepository.deleteById(usrID);
+            } else{
+                log.info("NOTHING TO DELETE");
+            }
+        }
+
+        return userRepository.findAll();
+    }
+
     public HashMap getSkillsByID(String name){
 
         List<UserEntity> lst = userRepository.findAll();

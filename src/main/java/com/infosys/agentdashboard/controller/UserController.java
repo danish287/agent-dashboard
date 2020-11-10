@@ -37,4 +37,9 @@ public class UserController {
     public List<UserEntity> deleteUser(@PathVariable String id){
         return userService.deleteUser(id);
     }
+
+    @DeleteMapping("/{id}/{skill}")
+    public List<UserEntity> deleteUser(@PathVariable String id, @PathVariable String skill){
+        return userService.deleteSkill(id, skill);
+    }
 }
