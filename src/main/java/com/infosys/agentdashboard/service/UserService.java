@@ -18,11 +18,40 @@ public class UserService {
     UserRepository userRepository;
     private static Log log = (Log) LogFactory.getLog(UserService.class);
 
+    public List<UserEntity> addUser(User user){
+        UserEntity newUser = new UserEntity();
+        newUser.setName(user.getName());
+        newUser.setSkill(user.getSkill());
+        newUser.setUUID(UUID.randomUUID().toString());
+        userRepository.saveAndFlush(newUser);
+        return userRepository.findAll();
+    }
+
+    public List<UserEntity> getAll(){
+        return userRepository.findAll();
+    }
+
+    public List<UserEntity> deleteUser(String name){
+
+        List<UserEntity> lst = userRepository.findAll();
+        for (UserEntity usr : lst){
+            String tempName = usr.getName();
+            if(tempName.equals(name)){
+                String usrID = usr.getUUID();
+                userRepository.deleteById(usrID);
+            } else{
+                log.info("NOTHING TO DELETE");
+            }
+        }
+
+        return userRepository.findAll();
+    }
+
     public HashMap getSkillsByID(String name){
 
         List<UserEntity> lst = userRepository.findAll();
         HashMap<String, ArrayList<String>> userMap = new HashMap<String, ArrayList<String>>();
-        ArrayList<String> scores = new ArrayList<String> ();
+
         for (UserEntity usr : lst){
             String tempName = usr.getName();
             if(tempName.equals(name)){
@@ -45,22 +74,11 @@ public class UserService {
                 log.info("NOOOOO" + usr.getSkill());
 
             }
-            }
+        }
 
         return userMap;
     }
 
-    public String addUser(User user){
-        UserEntity newUser = new UserEntity();
-        newUser.setName(user.getName());
-        newUser.setSkill(user.getSkill());
-        newUser.setUUID(UUID.randomUUID().toString());
-        userRepository.saveAndFlush(newUser);
-        return "Added successfully";
-    }
 
-    public List<UserEntity> getAll(){
-        return userRepository.findAll();
-    }
 
 }

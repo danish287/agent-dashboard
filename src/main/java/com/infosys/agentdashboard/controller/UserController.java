@@ -18,19 +18,23 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @GetMapping
+    public List<UserEntity> getAll(){
+        return userService.getAll();
+    }
+
     @GetMapping("/{id}")
     public HashMap getUser(@PathVariable String id){
         return userService.getSkillsByID(id);
     }
 
     @PostMapping
-    public String addUser(@RequestBody User user){
+    public List<UserEntity> addUser(@RequestBody User user){
         return userService.addUser(user);
     }
 
-    @GetMapping
-    public List<UserEntity> getAll(){
-        return userService.getAll();
+    @DeleteMapping("/{id}")
+    public List<UserEntity> deleteUser(@PathVariable String id){
+        return userService.deleteUser(id);
     }
-
 }
