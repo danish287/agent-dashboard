@@ -1,5 +1,7 @@
 package com.infosys.agentdashboard.service;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
 import com.infosys.agentdashboard.entity.UserEntity;
 import com.infosys.agentdashboard.models.User;
 import com.infosys.agentdashboard.repository.UserRepository;
@@ -27,8 +29,26 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public List<UserEntity> getAll(){
-        return userRepository.findAll();
+    public String getAll(){
+        List<UserEntity> lst = userRepository.findAll();
+        HashMap<String, ArrayList<String>> userMap = new HashMap<String, ArrayList<String>>();
+        Gson json = new Gson();
+
+
+        for (UserEntity usr : lst){
+
+            if(userMap.get(usr.getName()) == null){
+                ArrayList<String> skills = new ArrayList<String>();
+                skills.add(usr.getSkill());
+                userMap.put(usr.getName(), skills);
+            } else{
+                ArrayList usrLst = userMap.get(usr.getName());
+                usrLst.add(usr.getSkill());
+            }
+        }
+
+        return json.toJson(userMap);
+
     }
 
     public List<UserEntity> deleteUser(String name){
