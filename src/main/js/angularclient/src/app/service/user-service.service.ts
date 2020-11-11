@@ -34,4 +34,14 @@ export class UserService {
     console.log("DELETEURL" + this.delURL);
     return this.http.delete<NewUser>(this.delURL);
   }
+
+  public deleteUser(newUser: NewUser){
+    newUser.name = (newUser.name).charAt(0).toUpperCase() + (newUser.name).slice(1);
+    newUser.skill = (newUser.skill).charAt(0).toUpperCase() + (newUser.skill).slice(1);
+    
+    this.delURL = this.usersUrl +"/"+ newUser.name;
+    console.log("HEREE" + this.delURL);
+    return this.http.delete<NewUser>(this.delURL);
+
+  }
 }

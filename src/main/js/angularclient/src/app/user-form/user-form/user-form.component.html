@@ -1,5 +1,6 @@
 <div class="card my-5">
     <div class="card-body">
+      <p> ADD a new user, UPDATE a user's skills, comletely delete user from database, or simply DELETE a specific skill from a user.</p>
       <form (ngSubmit)="onSubmit()" #userForm="ngForm">
         <div class="form-group">
           <label for="name">Name</label>
@@ -23,7 +24,9 @@
           <div [hidden]="!name.pristine" class="alert alert-danger">Skill is required</div>
         <button type="submit" [disabled]="!userForm.form.valid" 
           class="btn btn-info" (click)="addUser()">Submit</button>
-        <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-info" (click)="deleteUser()">Delete</button>
+        <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-info" (click)="deleteSkill()">Delete Skill</button>
+        <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-info red" (click)="deleteAll()">DELETE USER</button>
+
       </form>
     </div>
   </div>

@@ -25,10 +25,15 @@ export class UserFormComponent {
   addUser(){
      this.userService.save(this.newUser).subscribe(result => this.gotoUserList());
   }
-  deleteUser(){
+  deleteSkill(){
     this.userService.delete(this.newUser).subscribe(result => this.gotoUserList());
 
     // this.gotoUserList();
+    }
+
+  deleteAll(){
+    this.userService.deleteUser(this.newUser).subscribe(result => this.gotoUserList());
+
     }
  
   gotoUserList() {

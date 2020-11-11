@@ -68,12 +68,14 @@ public class UserService {
         List < UserEntity > lst = userRepository.findAll();
         for (UserEntity usr: lst) {
             String tempName = usr.getName();
+            if (tempName != null) {
             if (tempName.equals(name)) {
                 String usrID = usr.getUUID();
                 userRepository.deleteById(usrID);
             } else {
                 log.info("NOTHING TO DELETE");
             }
+        }
         }
 
         return userRepository.findAll();
