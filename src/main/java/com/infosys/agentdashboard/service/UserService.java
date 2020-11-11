@@ -1,7 +1,6 @@
 package com.infosys.agentdashboard.service;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.google.gson.Gson;
+
 import com.infosys.agentdashboard.entity.UserEntity;
 import com.infosys.agentdashboard.models.User;
 import com.infosys.agentdashboard.models.UserLst;
@@ -12,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.*; 
 
 
 @Service
@@ -33,12 +32,14 @@ public class UserService {
 
     public List<UserLst> getAll(){
         List<UserEntity> lst = userRepository.findAll();
-        HashMap<String, ArrayList<String>> userMap = new HashMap<String, ArrayList<String>>();
-        Gson json = new Gson();
-
+        TreeMap<String, ArrayList<String>> userMap = new TreeMap<String, ArrayList<String>>();
+        List<UserLst> myLst = new ArrayList<UserLst>();
+        
 
         for (UserEntity usr : lst){
-
+        	if (usr.getName() == null) {
+        		continue;
+        	}
             if(userMap.get(usr.getName()) == null){
                 ArrayList<String> skills = new ArrayList<String>();
                 skills.add(usr.getSkill());
@@ -48,7 +49,6 @@ public class UserService {
                 usrLst.add(usr.getSkill());
             }
         }
-        List<UserLst> myLst = new ArrayList<UserLst>();
         
         for (HashMap.Entry<String,ArrayList<String>> entry : userMap.entrySet())
         {
@@ -60,7 +60,6 @@ public class UserService {
             log.info("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
         }
 
-//        return json.toJson(userMap);
         return myLst;
 
     }
@@ -116,7 +115,7 @@ public class UserService {
                 } else{
                     log.info("ADDED " + usr.getName()  + " "+ usr.getSkill());
 
-                    ArrayList usrLst = userMap.get(name);
+                    ArrayList<String> usrLst = userMap.get(name);
                     usrLst.add(usr.getSkill());
                 }
 

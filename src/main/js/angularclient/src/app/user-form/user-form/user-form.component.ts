@@ -20,7 +20,14 @@ export class UserFormComponent {
   }
  
   onSubmit() {
-    this.userService.save(this.newUser).subscribe(result => this.gotoUserList());
+
+    // this.userService.save(this.newUser).subscribe(result => this.gotoUserList());
+  }
+  addOwner(){
+     this.userService.save(this.newUser).subscribe(result => this.gotoUserList());
+  }
+  deleteOwner(){
+    console.log("DELETE");
   }
  
   gotoUserList() {
