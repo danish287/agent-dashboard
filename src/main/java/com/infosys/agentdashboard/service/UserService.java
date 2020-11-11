@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.Gson;
 import com.infosys.agentdashboard.entity.UserEntity;
 import com.infosys.agentdashboard.models.User;
+import com.infosys.agentdashboard.models.UserLst;
+
 import com.infosys.agentdashboard.repository.UserRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,7 +31,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public List<UserEntity> getAll(){
+    public List<UserLst> getAll(){
         List<UserEntity> lst = userRepository.findAll();
         HashMap<String, ArrayList<String>> userMap = new HashMap<String, ArrayList<String>>();
         Gson json = new Gson();
@@ -42,13 +44,24 @@ public class UserService {
                 skills.add(usr.getSkill());
                 userMap.put(usr.getName(), skills);
             } else{
-                ArrayList usrLst = userMap.get(usr.getName());
+                ArrayList<String>  usrLst = userMap.get(usr.getName());
                 usrLst.add(usr.getSkill());
             }
         }
+        List<UserLst> myLst = new ArrayList<UserLst>();
+        
+        for (HashMap.Entry<String,ArrayList<String>> entry : userMap.entrySet())
+        {
+            UserLst newLst = new UserLst();
+        	newLst.setName(entry.getKey());
+        	newLst.setSkill(entry.getValue());
+        	myLst.add(newLst);
+        
+            log.info("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
+        }
 
-//        return json.toJson(lst);
-        return lst;
+//        return json.toJson(userMap);
+        return myLst;
 
     }
 
@@ -85,7 +98,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public HashMap getSkillsByID(String name){
+    public  HashMap<String,ArrayList<String>> getSkillsByID(String name){
 
         List<UserEntity> lst = userRepository.findAll();
         HashMap<String, ArrayList<String>> userMap = new HashMap<String, ArrayList<String>>();

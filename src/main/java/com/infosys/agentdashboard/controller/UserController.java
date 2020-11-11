@@ -2,11 +2,13 @@ package com.infosys.agentdashboard.controller;
 
 import com.infosys.agentdashboard.entity.UserEntity;
 import com.infosys.agentdashboard.models.User;
+import com.infosys.agentdashboard.models.UserLst;
 import com.infosys.agentdashboard.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,12 +21,12 @@ public class UserController {
     UserService userService;
 
     @GetMapping
-    public List<UserEntity>  getAll(){
+    public   List<UserLst> getAll(){
         return userService.getAll();
     }
 
     @GetMapping("/{id}")
-    public HashMap getUser(@PathVariable String id){
+    public  HashMap<String,ArrayList<String>> getUser(@PathVariable String id){
         return userService.getSkillsByID(id);
     }
 
