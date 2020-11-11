@@ -5,19 +5,21 @@ import com.infosys.agentdashboard.models.User;
 import com.infosys.agentdashboard.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.HashMap;
 import java.util.List;
 
 @RequestMapping("/users")
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     @Autowired
     UserService userService;
 
     @GetMapping
-    public String getAll(){
+    public List<UserEntity>  getAll(){
         return userService.getAll();
     }
 

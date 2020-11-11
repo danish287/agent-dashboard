@@ -29,7 +29,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public String getAll(){
+    public List<UserEntity> getAll(){
         List<UserEntity> lst = userRepository.findAll();
         HashMap<String, ArrayList<String>> userMap = new HashMap<String, ArrayList<String>>();
         Gson json = new Gson();
@@ -47,7 +47,8 @@ public class UserService {
             }
         }
 
-        return json.toJson(userMap);
+//        return json.toJson(lst);
+        return lst;
 
     }
 
