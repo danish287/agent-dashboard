@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user/user';
+import { NewUser } from '../model/newUser/new-user';
+
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -17,7 +19,7 @@ export class UserService {
     return this.http.get<User[]>(this.usersUrl);
   }
 
-  public save(user: User) {
-    return this.http.post<User>(this.usersUrl, user);
+  public save(newUser: NewUser) {
+    return this.http.post<NewUser>(this.usersUrl, newUser);
   }
 }

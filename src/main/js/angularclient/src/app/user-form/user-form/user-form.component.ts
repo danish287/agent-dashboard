@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '../../model/user/user';
+import { NewUser } from '../../model/newUser/new-user';
 import { UserService } from '../../service/user-service.service';
  
 @Component({
@@ -10,17 +10,17 @@ import { UserService } from '../../service/user-service.service';
 })
 export class UserFormComponent {
  
-  user: User;
+  newUser: NewUser;
  
   constructor(
     private route: ActivatedRoute, 
       private router: Router, 
         private userService: UserService) {
-    this.user = new User();
+    this.newUser = new NewUser();
   }
  
   onSubmit() {
-    this.userService.save(this.user).subscribe(result => this.gotoUserList());
+    this.userService.save(this.newUser).subscribe(result => this.gotoUserList());
   }
  
   gotoUserList() {
