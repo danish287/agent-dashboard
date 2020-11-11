@@ -22,8 +22,8 @@
           </div>
           <div [hidden]="!name.pristine" class="alert alert-danger">Skill is required</div>
         <button type="submit" [disabled]="!userForm.form.valid" 
-          class="btn btn-info" (click)="addOwner()">Submit</button>
-        <button type="submit" class="btn btn-info" (click)="deleteOwner()">Delete</button>
+          class="btn btn-info" (click)="addUser()">Submit</button>
+        <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-info" (click)="deleteUser()">Delete</button>
       </form>
     </div>
   </div>

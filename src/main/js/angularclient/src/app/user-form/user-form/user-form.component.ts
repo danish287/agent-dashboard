@@ -20,15 +20,16 @@ export class UserFormComponent {
   }
  
   onSubmit() {
-
     // this.userService.save(this.newUser).subscribe(result => this.gotoUserList());
   }
-  addOwner(){
+  addUser(){
      this.userService.save(this.newUser).subscribe(result => this.gotoUserList());
   }
-  deleteOwner(){
-    console.log("DELETE");
-  }
+  deleteUser(){
+    this.userService.delete(this.newUser).subscribe(result => this.gotoUserList());
+
+    // this.gotoUserList();
+    }
  
   gotoUserList() {
     this.router.navigate(['/users']);

@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class UserService {
 
   private usersUrl: string;
+  private delURL: string;
 
   constructor(private http: HttpClient) {
     this.usersUrl = 'http://localhost:8081/users';
@@ -20,6 +21,17 @@ export class UserService {
   }
 
   public save(newUser: NewUser) {
+    newUser.name = (newUser.name).charAt(0).toUpperCase() + (newUser.name).slice(1);
+    newUser.skill = (newUser.skill).charAt(0).toUpperCase() + (newUser.skill).slice(1);
     return this.http.post<NewUser>(this.usersUrl, newUser);
+  }
+
+  public delete(newUser: NewUser) {
+    newUser.name = (newUser.name).charAt(0).toUpperCase() + (newUser.name).slice(1);
+    newUser.skill = (newUser.skill).charAt(0).toUpperCase() + (newUser.skill).slice(1);
+    
+    this.delURL = this.usersUrl +"/"+ newUser.name +"/"+newUser.skill;
+    console.log("DELETEURL" + this.delURL);
+    return this.http.delete<NewUser>(this.delURL);
   }
 }
