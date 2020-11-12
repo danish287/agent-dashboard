@@ -10,7 +10,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 
@@ -21,114 +20,107 @@ public class UserService {
     UserRepository userRepository;
     private static Log log = (Log) LogFactory.getLog(UserService.class);
 
-    public List < UserEntity > addUser(User user) {
+    public List <UserEntity> addUser(User user) {
         UserEntity newUser = new UserEntity();
-        newUser.setName(user.getName());
-        newUser.setSkill(user.getSkill());
-        newUser.setUUID(UUID.randomUUID().toString());
-        userRepository.saveAndFlush(newUser);
+        
+        if((user.getName() == null) | (user.getSkill() == null)) {
+        	log.info("INVALID USER");
+        } else {
+        	newUser.setName(user.getName());
+        	newUser.setSkill(user.getSkill());
+        	newUser.setUUID(UUID.randomUUID().toString());
+        	userRepository.saveAndFlush(newUser);
+        }
         return userRepository.findAll();
     }
 
-    public List < UserLst > getAll() {
-        List < UserEntity > lst = userRepository.findAll();
-        TreeMap < String, ArrayList < String >> userMap = new TreeMap < String, ArrayList < String >> ();
-        List < UserLst > myLst = new ArrayList < UserLst > ();
+    public List<UserLst> getAll() {
+        List <UserEntity> lst = userRepository.findAll();
+        TreeMap <String, ArrayList <String>> userMap = new TreeMap < String, ArrayList < String >> ();
+        List <UserLst> orderedLst = new ArrayList <UserLst>();
 
 
         for (UserEntity usr: lst) {
-            if (usr.getName() == null) {
+        	if((usr.getName() == null) | (usr.getSkill() == null)){
                 continue;
             }
             if (userMap.get(usr.getName()) == null) {
-                ArrayList < String > skills = new ArrayList < String > ();
+                ArrayList <String> skills = new ArrayList <String> ();
                 skills.add(usr.getSkill());
                 userMap.put(usr.getName(), skills);
             } else {
-                ArrayList < String > usrLst = userMap.get(usr.getName());
+                ArrayList <String> usrLst = userMap.get(usr.getName());
                 usrLst.add(usr.getSkill());
             }
         }
 
-        for (HashMap.Entry < String, ArrayList < String >> entry: userMap.entrySet()) {
-            UserLst newLst = new UserLst();
-            newLst.setName(entry.getKey());
-            newLst.setSkill(entry.getValue());
-            myLst.add(newLst);
-
-            log.info("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        for (HashMap.Entry <String, ArrayList <String>> entry: userMap.entrySet()) {
+            UserLst newUser = new UserLst();
+            newUser.setName(entry.getKey());
+            newUser.setSkill(entry.getValue());
+            orderedLst.add(newUser);
         }
-
-        return myLst;
-
+        return orderedLst;
     }
 
-    public List < UserEntity > deleteUser(String name) {
-
-        List < UserEntity > lst = userRepository.findAll();
+    public List <UserEntity> deleteUser(String name) {
+    	
+        List <UserEntity> lst = userRepository.findAll();
         for (UserEntity usr: lst) {
             String tempName = usr.getName();
             if (tempName != null) {
-            if (tempName.equals(name)) {
-                String usrID = usr.getUUID();
-                userRepository.deleteById(usrID);
-            } else {
-                log.info("NOTHING TO DELETE");
+            	if (tempName.equals(name)) {
+            		String usrID = usr.getUUID();
+            		userRepository.deleteById(usrID);
+            	} else {
+            		log.info("INVALID: NOTHING TO DELETE");
+            	}
             }
         }
-        }
-
         return userRepository.findAll();
     }
 
-    public List < UserEntity > deleteSkill(String name, String skill) {
+    public List <UserEntity> deleteSkill(String name, String skill) {
 
-        List < UserEntity > lst = userRepository.findAll();
+        List <UserEntity> lst = userRepository.findAll();
         for (UserEntity usr: lst) {
             String tempName = usr.getName();
             String tempSkill = usr.getSkill();
-            log.info("NAME"+name);
-            log.info("SKILL+skill"+tempSkill);
             if (tempName != null) {
-            if (tempName.equals(name) && tempSkill.equals(skill)) {
-                String usrID = usr.getUUID();
-                userRepository.deleteById(usrID);
-            } else {
-                log.info("NOTHING TO DELETE");
-            }
+            	if (tempName.equals(name) && tempSkill.equals(skill)) {
+            		String usrID = usr.getUUID();
+            		userRepository.deleteById(usrID);
+            	} else {
+            		log.info("NOTHING TO DELETE");
+            	}
             }
         }
 
         return userRepository.findAll();
     }
 
-    public HashMap < String, ArrayList < String >> getSkillsByID(String name) {
+    
+    public HashMap <String, ArrayList <String>> getSkillsByID(String name) {
 
-        List < UserEntity > lst = userRepository.findAll();
-        HashMap < String, ArrayList < String >> userMap = new HashMap < String, ArrayList < String >> ();
+        List <UserEntity> lst = userRepository.findAll();
+        HashMap <String, ArrayList <String>> userMap = new HashMap <String, ArrayList <String>> ();
 
         for (UserEntity usr: lst) {
             String tempName = usr.getName();
+            
             if (tempName.equals(name)) {
-                log.info("YESSSSS" + usr.getSkill());
                 if (userMap.get(name) == null) {
-                    ArrayList < String > skills = new ArrayList < String > ();
+                    ArrayList <String> skills = new ArrayList <String> ();
                     skills.add(usr.getSkill());
                     userMap.put(usr.getName(), skills);
-                    log.info("CREATed " + usr.getName() + " " + usr.getSkill());
-
                 } else {
-                    log.info("ADDED " + usr.getName() + " " + usr.getSkill());
-
                     ArrayList < String > usrLst = userMap.get(name);
                     usrLst.add(usr.getSkill());
                 }
 
-            } else {
-                log.info("NOOOOO" + usr.getSkill());
-            }
+            } 
         }
-        
+     
         return userMap;
     }
 }

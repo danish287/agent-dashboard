@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class UserLst {
 
-
         private String name;
         private ArrayList<String> skill;
 
@@ -23,6 +22,4 @@ public class UserLst {
         public void setSkill(ArrayList<String> arrayList) {
             this.skill = arrayList;
         }
-
-
 }
