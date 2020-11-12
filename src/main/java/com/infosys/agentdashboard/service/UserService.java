@@ -72,9 +72,7 @@ public class UserService {
             	if (tempName.equals(name)) {
             		String usrID = usr.getUUID();
             		userRepository.deleteById(usrID);
-            	} else {
-            		log.info("INVALID: NOTHING TO DELETE");
-            	}
+            	} 
             }
         }
         return userRepository.findAll();
@@ -90,9 +88,7 @@ public class UserService {
             	if (tempName.equals(name) && tempSkill.equals(skill)) {
             		String usrID = usr.getUUID();
             		userRepository.deleteById(usrID);
-            	} else {
-            		log.info("NOTHING TO DELETE");
-            	}
+            	} 
             }
         }
 
