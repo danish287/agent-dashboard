@@ -27,13 +27,10 @@ export class UserFormComponent {
   }
   deleteSkill(){
     this.userService.delete(this.newUser).subscribe(result => this.gotoUserList());
-
-    // this.gotoUserList();
     }
 
   deleteAll(){
     this.userService.deleteUser(this.newUser).subscribe(result => this.gotoUserList());
-
     }
  
   gotoUserList() {

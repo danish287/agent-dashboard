@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../model/user/user';
 import { NewUser } from '../model/newUser/new-user';
 
@@ -16,7 +16,6 @@ export class UserService {
   }
 
   public findAll(): Observable<User[]> {
-
     return this.http.get<User[]>(this.usersUrl);
   }
 
@@ -38,7 +37,6 @@ export class UserService {
   public deleteUser(newUser: NewUser){
     newUser.name = (newUser.name).charAt(0).toUpperCase() + (newUser.name).slice(1);
     newUser.skill = (newUser.skill).charAt(0).toUpperCase() + (newUser.skill).slice(1);
-    
     this.delURL = this.usersUrl +"/"+ newUser.name;
     console.log("HEREE" + this.delURL);
     return this.http.delete<NewUser>(this.delURL);
